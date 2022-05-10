@@ -140,10 +140,8 @@
                             <label for="payment-home">Thanh toán tại nhà</label>
                         </li>
                         <li>
-                            <a href="{{url('/vnpay_payment')}}">
-                                <input type="radio" id="direct-payment" name="payment-method" value="direct-payment">
-                                <label for="direct-payment">Thanh toán qua VNPay</label>
-                            </a>
+                            <input type="radio" id="vnpay-payment" name="payment-method" value="vnpay-payment">
+                            <label for="vnpay-payment">Thanh toán qua VNPay</label>
                         </li>
                     </ul>
                 </div>

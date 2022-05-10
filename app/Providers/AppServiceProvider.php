@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        //
+        
         $data['pages'] = Page::latest()->get();
         $data['categoryProductParent'] = CategoryProduct::where('parent_id', 0)->get();
 

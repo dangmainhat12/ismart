@@ -16,115 +16,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class UserCartController extends Controller {
-    //
-    function vnpay_payment(){
-        error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-
-        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
-        $vnp_TmnCode = "9TB96RCV";//Mã website tại VNPAY 
-        $vnp_HashSecret = "OHGQQABWRQSLHWJBMUMEZHKCOFFZPBZJ"; //Chuỗi bí mật
-
-        $vnp_TxnRef = $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = $_POST['order_desc'];
-        $vnp_OrderType = $_POST['order_type'];
-        $vnp_Amount = $_POST['amount'] * 100;
-        $vnp_Locale = $_POST['language'];
-        $vnp_BankCode = $_POST['bank_code'];
-        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        //Add Params of 2.0.1 Version
-        $vnp_ExpireDate = $_POST['txtexpire'];
-        //Billing
-        $vnp_Bill_Mobile = $_POST['txt_billing_mobile'];
-        $vnp_Bill_Email = $_POST['txt_billing_email'];
-        $fullName = trim($_POST['txt_billing_fullname']);
-        if (isset($fullName) && trim($fullName) != '') {
-            $name = explode(' ', $fullName);
-            $vnp_Bill_FirstName = array_shift($name);
-            $vnp_Bill_LastName = array_pop($name);
-        }
-        $vnp_Bill_Address=$_POST['txt_inv_addr1'];
-        $vnp_Bill_City=$_POST['txt_bill_city'];
-        $vnp_Bill_Country=$_POST['txt_bill_country'];
-        $vnp_Bill_State=$_POST['txt_bill_state'];
-        // Invoice
-        $vnp_Inv_Phone=$_POST['txt_inv_mobile'];
-        $vnp_Inv_Email=$_POST['txt_inv_email'];
-        $vnp_Inv_Customer=$_POST['txt_inv_customer'];
-        $vnp_Inv_Address=$_POST['txt_inv_addr1'];
-        $vnp_Inv_Company=$_POST['txt_inv_company'];
-        $vnp_Inv_Taxcode=$_POST['txt_inv_taxcode'];
-        $vnp_Inv_Type=$_POST['cbo_inv_type'];
-        $inputData = array(
-            "vnp_Version" => "2.1.0",
-            "vnp_TmnCode" => $vnp_TmnCode,
-            "vnp_Amount" => $vnp_Amount,
-            "vnp_Command" => "pay",
-            "vnp_CreateDate" => date('YmdHis'),
-            "vnp_CurrCode" => "VND",
-            "vnp_IpAddr" => $vnp_IpAddr,
-            "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" => $vnp_OrderInfo,
-            "vnp_OrderType" => $vnp_OrderType,
-            "vnp_ReturnUrl" => $vnp_Returnurl,
-            "vnp_TxnRef" => $vnp_TxnRef,
-            "vnp_ExpireDate"=>$vnp_ExpireDate,
-            "vnp_Bill_Mobile"=>$vnp_Bill_Mobile,
-            "vnp_Bill_Email"=>$vnp_Bill_Email,
-            "vnp_Bill_FirstName"=>$vnp_Bill_FirstName,
-            "vnp_Bill_LastName"=>$vnp_Bill_LastName,
-            "vnp_Bill_Address"=>$vnp_Bill_Address,
-            "vnp_Bill_City"=>$vnp_Bill_City,
-            "vnp_Bill_Country"=>$vnp_Bill_Country,
-            "vnp_Inv_Phone"=>$vnp_Inv_Phone,
-            "vnp_Inv_Email"=>$vnp_Inv_Email,
-            "vnp_Inv_Customer"=>$vnp_Inv_Customer,
-            "vnp_Inv_Address"=>$vnp_Inv_Address,
-            "vnp_Inv_Company"=>$vnp_Inv_Company,
-            "vnp_Inv_Taxcode"=>$vnp_Inv_Taxcode,
-            "vnp_Inv_Type"=>$vnp_Inv_Type
-        );
-
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-            $inputData['vnp_BankCode'] = $vnp_BankCode;
-        }
-        if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
-            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
-        }
-
-        //var_dump($inputData);
-        ksort($inputData);
-        $query = "";
-        $i = 0;
-        $hashdata = "";
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-            } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
-                $i = 1;
-            }
-            $query .= urlencode($key) . "=" . urlencode($value) . '&';
-        }
-
-        $vnp_Url = $vnp_Url . "?" . $query;
-        if (isset($vnp_HashSecret)) {
-            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
-            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-        }
-        $returnData = array('code' => '00'
-            , 'message' => 'success'
-            , 'data' => $vnp_Url);
-            if (isset($_POST['redirect'])) {
-                header('Location: ' . $vnp_Url);
-                die();
-            } else {
-                echo json_encode($returnData);
-            }
-            // vui lòng tham khảo thêm tại code demo
-            }
-
     function addCart(Request $request, $id) {
         $qty = $request->input('num');
         $productColorId = $request->input('productColorId');
@@ -286,12 +177,19 @@ class UserCartController extends Controller {
 
             // Insert data order
             $orderId = 'IS-' . $this->createOrderId();
+            $paymentMethod = $request->input('payment-method');
+
             $dataOrder = [
                 'id' => $orderId,
                 'customer_id' => $customer->id,
                 'total' => Cart::total()
             ];
-            Order::create($dataOrder);
+
+            if ($this->needOnlinePayment($paymentMethod)) {
+                $dataOrder['status'] = -1;
+            }
+
+            $order = Order::create($dataOrder);
 
             //Inset orderDetail
             $content = Cart::content();
@@ -321,12 +219,79 @@ class UserCartController extends Controller {
             Cart::destroy();
 
             DB::commit();
+
+            switch ($paymentMethod) {
+                case 'vnpay-payment':
+                    $vnPayPaymentUrl = $this->generateVNPayOrderPaymentUrl($order);
+                    return redirect($vnPayPaymentUrl);
+            }
+
             return redirect()->route('user.complete');
         } catch (\Exception $e) {
             DB::rollback();
             throw new \Exception($e->getMessage());
         }
         // dd($request->all());
+    }
+
+    function generateVNPayOrderPaymentUrl($order) {
+        return generateVNPayPaymentUrl([
+            'vnp_ReturnUrl' => route('user.handleVNPayReturnUrl'),
+            'order_type' => 'billpayment',
+            'order_id' => $order->id,
+            'amount' => $order->total,
+            'order_desc' => 'Noi dung thanh toan',
+            'bank_code' =>'',
+            'language' => 'vn',
+            'txtexpire' => '20220510205002',
+            'txt_billing_fullname' => 'NGUYEN VAN XO',
+            'txt_billing_email' => 'xonv@vnpay.vn',
+            'txt_billing_mobile' => '0934998386',
+            'txt_billing_addr1' => '22 Lang Ha',
+            'txt_postalcode' => '100000',
+            'txt_bill_city' => 'Hà Nội',
+            'txt_bill_state' => '',
+            'txt_bill_country' => 'VN',
+            'txt_ship_fullname' => 'Nguyễn Thế Vinh',
+            'txt_ship_email' => 'vinhnt@vnpay.vn',
+            'txt_ship_mobile' => '0123456789',
+            'txt_ship_addr1' => 'Phòng 315, Công ty VNPAY, Tòa nhà TĐL, 22 Láng Hạ, Đống Đa, Hà Nội',
+            'txt_ship_postalcode' => '1000000',
+            'txt_ship_city' => 'Hà Nội',
+            'txt_ship_state' => '',
+            'txt_ship_country' => 'VN',
+            'txt_inv_customer' => 'Lê Văn Phổ',
+            'txt_inv_company' => 'Công ty Cổ phần giải pháp Thanh toán Việt Nam',
+            'txt_inv_addr1' => '22 Láng Hạ, Phường Láng Hạ, Quận Đống Đa, TP Hà Nội',
+            'txt_inv_taxcode' => '0102182292',
+            'cbo_inv_type' => 'I',
+            'txt_inv_email' => 'pholv@vnpay.vn',
+            'txt_inv_mobile' => '02437764668',
+            'redirect' => '',
+        ]);
+    }
+
+    function needOnlinePayment($paymentMethod)
+    {
+        return $paymentMethod === 'vnpay-payment';
+    }
+
+    function handleVNPayReturnUrl(Request $request)
+    {
+        $inputData = $request->except('vnp_SecureHash');
+        $vnpSecureHash = $request->query('vnp_SecureHash');
+
+        if ($vnpSecureHash !== generateVNPaySignature($inputData)) {
+            abort(401);
+        }
+
+        $orderId = $request->query('vnp_TxnRef');
+
+        Order::where('id', $orderId)
+            ->where('status', -1)
+            ->update(['status' => 0]);
+
+        return redirect()->route('user.complete');
     }
 
     function createOrderId() {

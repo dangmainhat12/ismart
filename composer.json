@@ -46,7 +46,8 @@
         "files": [
             "app/Helpers/recursive.php",
             "app/Helpers/deleteModel.php",
-            "app/Helpers/uploadImage.php"
+            "app/Helpers/uploadImage.php",
+            "app/Helpers/payment.php"
         ]
     },
     "autoload-dev": {

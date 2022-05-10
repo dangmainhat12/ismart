@@ -216,6 +216,7 @@ Route::group(['namespace' => 'User'], function () {
 
     Route::get('thanh-toan', 'UserCartController@checkout')->name('user.checkout');
     Route::post('thanh-toan', 'UserCartController@postCheckout')->name('user.postCheckout');
+    Route::get('thanh-toan-vnpay', 'UserCartController@handleVNPayReturnUrl')->name('user.handleVNPayReturnUrl');
 
     Route::get('page/{id}', 'UserHomeController@page')->name('user.page');
 
