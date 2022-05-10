@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\ProductColor;
+use Exception;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -210,11 +211,13 @@ class UserCartController extends Controller {
             $nameCustomer = $dataCustomer['name'];
 
             //Send Mail
-            Mail::send('user.mail.orderConfirmation', $data, function ($message) use ($emailCustomer, $nameCustomer) {
-                $message->from('phananhtai868@gmail.com', 'ISMART STORE');
-                $message->to($emailCustomer, $nameCustomer);
-                $message->subject('Xác nhận đơn hàng cửa hàng ISMART STORE');
-            });
+            try {
+                Mail::send('user.mail.orderConfirmation', $data, function ($message) use ($emailCustomer, $nameCustomer) {
+                    $message->from('phananhtai868@gmail.com', 'ISMART STORE');
+                    $message->to($emailCustomer, $nameCustomer);
+                    $message->subject('Xác nhận đơn hàng cửa hàng ISMART STORE');
+                });
+            } catch (Exception $e) {}
 
             Cart::destroy();
 
