@@ -100,7 +100,7 @@ referrerpolicy="origin">
                     <label for="category_product_id">Danh mục</label>
                     <select class="form-control @error('category_product_id') is-invalid @enderror"
                         id="category_product_id" name="category_product_id">
-                        <option value="">Chọn danh mục cho bài viết</option>
+                        <option value="">Chọn danh mục cho sản phẩm</option>
                         @foreach ($data_select as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach

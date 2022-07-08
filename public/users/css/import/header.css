@@ -28,21 +28,25 @@
 }
 #head-body {
     background: #abd6b2;
+    padding: 16px 0;
 }
 #head-body #logo {
     display: block;
     text-transform: uppercase;
     font-family: "Roboto Medium";
     color: #fff;
-    padding: 13px 0px;
 }
 #head-body .logo img{
     width: 25%;
 
 }
 #head-body #search-wp {
-    padding: 22px 0px 22px 195px;
     position: relative;
+    display: flex;
+    align-items: center;
+}
+#head-body #search-wp form {
+    margin-left: 140px;
 }
 #head-body #search-wp #search {
     display: inline-block;
@@ -69,7 +73,7 @@
 }
 #advisory-wp {
     position: relative;
-    padding: 15px 30px 15px 50px;
+    padding: 20px 30px 15px 50px;
 }
 #advisory-wp:before {
     position: absolute;
@@ -114,7 +118,7 @@
     position: relative;
     display: block;
     color: #fff;
-    padding: 20px 0px 20px 30px;
+    padding: 25px 0px 20px 30px;
 }
 #cart-wp i,
 #cart-respon-wp i {

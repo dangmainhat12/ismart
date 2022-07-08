@@ -10,7 +10,7 @@
             <div class="col-4">
                 <div class="card">
                     <div class="card-header font-weight-bold">
-                        Danh mục sản phẩm
+                        Danh mục bài viết
                     </div>
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -47,7 +47,7 @@
             <div class="col-8">
                 <div class="card">
                     <div class="card-header font-weight-bold">
-                        Danh sách danh mục sản phẩm
+                        Danh sách danh mục bài viết
                     </div>
                     <div class="card-body">
                         <table class="table table-striped">

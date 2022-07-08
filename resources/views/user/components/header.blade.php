@@ -22,9 +22,9 @@
     </div>
     <div id="head-body" class="clearfix">
         <div class="wp-inner">
-            <a href="{{ route('user.index') }}" title="" id="logo" class="fl-left"><img
-                    src="{{ asset('public/users/images/logo.png') }}" class="logo"/></a>
             <div id="search-wp" class="fl-left">
+                <a href="{{ route('user.index') }}" title="" id="logo" class="fl-left"><img
+                    src="{{ asset('public/users/images/logo.png') }}" class="logo" width="100px"/></a>
                 <form action="{{ route('user.search') }}" autocomplete="off">
                     <input type="text" name="search" id="search" value="{{ request()->input('search') }}"
                         placeholder="Nhập từ khóa tìm kiếm tại đây!" data-url="{{ route('user.autocomplete') }}">
