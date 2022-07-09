@@ -187,7 +187,7 @@
                                     txt +=
                                         '<div class="product-color ' + active + '">' +
                                         '<div class="img">' +
-                                        '<img src="{{ asset('') }}' + productColors[i]
+                                        '<img src=""' + productColors[i]
                                         .image_color_path + '" alt="">' +
                                         '<input type="radio" ' + check +
                                         ' name="check-color" value="' +
