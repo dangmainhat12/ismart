@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Log;
+use Mail;
+use Session;
 
 class HomeController extends Controller
 {
@@ -24,5 +27,17 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function sendMail(Request $request)
+    {
+        // Log::info($request->email);
+        Session::flash('messageRegister', 'Đăng ký gửi thông tin thành công');
+        $data = array();
+        $emailSend = $request->email;
+        Mail::send('mail.resgister', array('data' => $data), function ($message) use ($data, $emailSend) {
+            $message->to($emailSend, 'Mai Nhật')->subject('Thông báo sắp đến sinh nhật!');
+        });
+        return redirect('/');
     }
 }

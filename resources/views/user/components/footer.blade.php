@@ -1,3 +1,18 @@
+@if(Session::has('messageRegister'))
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="20000" style="position: absolute; top: 1rem; right: 1rem;">
+    <div class="toast-header">
+
+        <strong class="mr-auto">Bootstrap</strong>
+        <small>11 mins ago</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        Đăng ký bản tin thành công
+    </div>
+</div>
+@endif
 <div id="footer-wp">
     <div id="foot-body">
         <div class="wp-inner clearfix">
@@ -46,7 +61,8 @@
                 <h3 class="title">Bảng tin</h3>
                 <p class="desc">Đăng ký với chung tôi để nhận được thông tin ưu đãi sớm nhất</p>
                 <div id="form-reg">
-                    <form method="POST" action="">
+                    <form method="POST" action="{{ url('/send-mail') }}">
+                        <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
                         <input type="email" name="email" id="email" placeholder="Nhập email tại đây">
                         <button type="submit" id="sm-reg">Đăng ký</button>
                     </form>
@@ -60,3 +76,26 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('.toast').toast('show')
+        // var slider = $('#imageGallery').lightSlider({
+        //     gallery: true,
+        //     item: 1,
+        //     loop: true,
+        //     thumbItem: 6,
+        //     slideMargin: 0,
+        //     enableDrag: false,
+        //     currentPagerPosition: 'left',
+        //     onSliderLoad: function(el) {
+        //         el.lightGallery({
+        //             selector: '#imageGallery .lslide'
+        //         });
+        //     }
+        // });
+        // $('.desc .product-color').click(function() {
+        //     var id = $(this).data('id')
+        //     slider.goToSlide(id);
+        // });
+    });
+</script>

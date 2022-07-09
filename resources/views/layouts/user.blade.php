@@ -5,18 +5,17 @@
     <title>@yield('title')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('public/users/css/bootstrap/bootstrap-theme.min.css') }} " rel="stylesheet"
-        type="text/css" />
+    <link href="{{ asset('public/users/css/bootstrap/bootstrap-theme.min.css') }} " rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{ asset('public/bootstrap/css/bootstrap.min.css') }}">
     <link href="{{ asset('public/users/reset.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/users/css/carousel/owl.carousel.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/users/css/carousel/owl.theme.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('public/users/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"
-        type="text/css" />
+    <link href="{{ asset('public/users/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/users/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/users/css/lightgallery.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/users/css/lightslider.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/users/responsive.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('public/bootstrap/js/jquery-3.5.1.min.js') }}" type="text/javascript"></script>
     @yield('css')
 
 </head>
@@ -36,7 +35,7 @@
         <div id="btn-top"><img src="{{ asset('public/users/images/icon-to-top.png') }}" alt="" /></div>
         <div id="fb-root"></div>
     </div>
-    <script src="{{ asset('public/bootstrap/js/jquery-3.5.1.min.js') }}" type="text/javascript"></script>
+    <!-- <script src="{{ asset('public/bootstrap/js/jquery-3.5.1.min.js') }}" type="text/javascript"></script> -->
     <script src="{{ asset('public/bootstrap/js/popper.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('public/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('public/users/js/elevatezoom-master/jquery.elevatezoom.js') }}" type="text/javascript">
