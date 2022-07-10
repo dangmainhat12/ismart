@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@section('title', 'Ismart Store')
+@section('title', 'Mint Boutique')
 @section('main_class', 'home-page')
 @section('content')
     <div class="main-content fl-right">
