@@ -36,7 +36,7 @@ class HomeController extends Controller
         $data = array();
         $emailSend = $request->email;
         Mail::send('mail.resgister', array('data' => $data), function ($message) use ($data, $emailSend) {
-            $message->to($emailSend, 'Mai Nhật')->subject('Thông báo sắp đến sinh nhật!');
+            $message->to($emailSend, 'Nhận tin đăng ký')->subject('Chúc mừng bạn nhận được voucher giảm 10%');
         });
         return redirect('/');
     }

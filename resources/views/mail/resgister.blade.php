@@ -1,3 +1,4 @@
 <div>
-    Chúc mừng sinh nhật Mai Nhật
+    Chúc mừng 
+    Chúc mừng bạn nhận được voucher giảm 10%
 </div>
